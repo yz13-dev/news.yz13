@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { NuqsAdapter } from "nuqs/adapters/remix";
 import "./styles/globals.css";
 
 export const links: LinksFunction = () => [
@@ -36,7 +37,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="inter-sans pixelify-sans">
-        {children}
+        <NuqsAdapter>
+          {children}
+        </NuqsAdapter>
         <ScrollRestoration />
         <Scripts />
       </body>

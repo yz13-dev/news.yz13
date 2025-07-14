@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
-import { formatRelative, parseISO } from "date-fns";
+import { Skeleton } from "@yz13/ui/skeleton";
+import { formatDistanceToNow, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
 import { ArrowRightIcon, ExternalLinkIcon, ImageOffIcon } from "lucide-react";
 
@@ -9,6 +10,18 @@ type ArticleCardProps = {
   article: any
 }
 
+export const ArticleCardSkeleton = () => {
+  return (
+    <div className="space-y-3 py-4 gap-2 relative">
+      <Skeleton className="w-full h-[28px]" />
+      <Skeleton className="w-1/3 h-4" />
+      <div className="flex items-center justify-between">
+        <Skeleton className="w-1/4 h-4" />
+        <Skeleton className="w-1/4 h-4" />
+      </div>
+    </div>
+  )
+}
 
 export default function ({ article }: ArticleCardProps) {
 
@@ -35,7 +48,7 @@ export default function ({ article }: ArticleCardProps) {
         <span className="text-lg font-medium text-pretty">{title}</span>
       </div>
       <span className="text-xs block text-muted-foreground capitalize">
-        {formatRelative(publishedAt, new Date(), { locale: ru })}
+        {formatDistanceToNow(publishedAt, { locale: ru, addSuffix: true })}
       </span>
       <div className="flex items-center gap-3">
         {

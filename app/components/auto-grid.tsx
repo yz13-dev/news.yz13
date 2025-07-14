@@ -1,10 +1,12 @@
 import { Loader2Icon } from "lucide-react";
 import { useInView } from "motion/react";
+import { useQueryState } from "nuqs";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import ArticleCard from "./article-card";
 
 
 export default function ({ children }: { children: ReactNode }) {
+  const [date] = useQueryState("date")
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -29,6 +31,7 @@ export default function ({ children }: { children: ReactNode }) {
       const searchParams = url.searchParams
 
       searchParams.set("offset", String(newOffset));
+      if (date) searchParams.set("date", date);
 
       const response = await fetch(url.toString())
 
@@ -48,7 +51,7 @@ export default function ({ children }: { children: ReactNode }) {
   };
   useEffect(() => {
     if (inView) handleNewArticles();
-  }, [inView]);
+  }, [inView, date]);
   return (
     <>
       {children}
