@@ -3,7 +3,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { Button } from "@yz13/ui/button";
 import { formatRelative, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, ImageOffIcon } from "lucide-react";
 
 export const loader = async () => {
 
@@ -51,10 +51,15 @@ export default function Index() {
             return (
               <div className="space-y-3 py-4 gap-2 relative" key={article.id}>
                 {
-                  imageUrl &&
-                  <img src={imageUrl} className="md:w-36 w-full md:absolute relative md:-left-40 left-0 aspect-video rounded-lg object-cover" alt={title} />
+                  imageUrl
+                    ? <img src={imageUrl} className="md:w-36 w-full md:absolute relative md:-left-40 left-0 aspect-video rounded-lg object-cover" alt={title} />
+                    : <div className="md:w-36 w-full md:absolute relative md:flex hidden border md:-left-40 left-0 aspect-video rounded-lg object-cover  items-center justify-center">
+                      <ImageOffIcon size={24} className="text-muted-foreground" />
+                    </div>
                 }
-                <span className="text-lg font-medium block">{title}</span>
+                <div>
+                  <span className="text-lg font-medium text-pretty">{title}</span>
+                </div>
                 <span className="text-xs block text-muted-foreground capitalize">
                   {formatRelative(publishedAt, new Date(), { locale: ru })}
                 </span>
