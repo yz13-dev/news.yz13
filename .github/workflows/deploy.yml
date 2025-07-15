@@ -1,0 +1,61 @@
+name: Deploy to Yandex Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: yz13-news
+  IMAGE_TAG: latest
+  CONTAINER_NAME: news-yz13
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install Yandex Cloud CLI
+        run: |
+          curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+          echo "$HOME/yandex-cloud/bin" >> $GITHUB_PATH
+
+      - name: Authenticate to Yandex Cloud
+        run: |
+          echo '${{ secrets.YC_SA_KEY_JSON }}' > key.json
+          yc config set service-account-key key.json
+
+      - name: Configure Docker for Yandex Cloud
+        run: yc container registry configure-docker
+
+      - name: Build and push Docker image
+        run: |
+          IMAGE="${{ secrets.YC_REGISTRY_ID }}/$IMAGE_NAME:$IMAGE_TAG"
+          docker build \
+            -t $IMAGE .
+          docker push $IMAGE
+
+      - name: Deploy to Serverless Container
+        run: |
+          IMAGE="${{ secrets.YC_REGISTRY_ID }}/$IMAGE_NAME:$IMAGE_TAG"
+          FOLDER_ID="${{ secrets.YC_FOLDER_ID }}"
+          SERVICE_ACCOUNT_ID="${{ secrets.YC_SERVICE_ACCOUNT_ID }}"
+
+          yc serverless container revision deploy \
+            --image $IMAGE \
+            --container-name $CONTAINER_NAME \
+            --folder-id $FOLDER_ID \
+            --concurrency 5 \
+            --zone-instances-limit 5 \
+            --zone-requests-limit 5 \
+            --memory 512MB \
+            --cores 1 \
+            --core-fraction 100 \
+            --execution-timeout 30s \
+            --service-account-id $SERVICE_ACCOUNT_ID \
