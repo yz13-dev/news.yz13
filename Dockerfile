@@ -20,7 +20,7 @@ FROM base as production
 RUN bun run build
 
 # Создаем минимальный runtime образ
-FROM oven/bun:1-alpine as runtime
+FROM oven/bun:1 as runtime
 
 WORKDIR /app
 
