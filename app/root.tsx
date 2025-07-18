@@ -1,13 +1,5 @@
-import type { LinksFunction } from "@remix-run/node";
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
-
-import { NuqsAdapter } from "nuqs/adapters/remix";
+import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
+import { Links, LinksFunction, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import "./styles/globals.css";
 
 export const links: LinksFunction = () => [

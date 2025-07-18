@@ -1,8 +1,7 @@
 import ArticleCard, { ArticleCardSkeleton } from "@/components/article-card";
 import AutoGrid from "@/components/auto-grid";
 import DatePicker from "@/components/date-picker";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, MetaFunction, useLoaderData } from "react-router";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   try {

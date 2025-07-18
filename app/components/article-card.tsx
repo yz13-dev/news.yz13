@@ -1,8 +1,8 @@
-import { Link } from "@remix-run/react";
 import { Skeleton } from "@yz13/ui/skeleton";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
 import { ArrowRightIcon, ExternalLinkIcon, ImageOffIcon } from "lucide-react";
+import { Link } from "react-router";
 
 
 
