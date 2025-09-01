@@ -1,3 +1,5 @@
+import { getNewsV1 } from "@yz13/api";
+import { format } from "date-fns";
 import { Loader2Icon } from "lucide-react";
 import { useInView } from "motion/react";
 import { useQueryState } from "nuqs";
@@ -23,19 +25,12 @@ export default function ({ children }: { children: ReactNode }) {
     try {
       const newOffset = offset + 16;
 
-      const base = "https://api.yz13.ru/";
-      const pathname = "v1/news";
+      const newDate = date ? date : format(new Date(), "yyyy-MM-dd")
 
-      const url = new URL(pathname, base);
-
-      const searchParams = url.searchParams
-
-      searchParams.set("offset", String(newOffset));
-      if (date) searchParams.set("date", date);
-
-      const response = await fetch(url.toString())
-
-      const articles = await response.json()
+      const articles = await getNewsV1({
+        date: newDate,
+        offset: String(newOffset),
+      })
 
       const newArticles = articles ?? [];
       if (newArticles.length === 0) setIsAll(true);

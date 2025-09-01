@@ -1,6 +1,8 @@
 import ArticleCard, { ArticleCardSkeleton } from "@/components/article-card";
 import AutoGrid from "@/components/auto-grid";
 import DatePicker from "@/components/date-picker";
+import { getNewsV1 } from "@yz13/api";
+import { format } from "date-fns";
 import { LoaderFunctionArgs, MetaFunction, useLoaderData } from "react-router";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -10,17 +12,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
     const searchParams = url.searchParams
 
-    const date = searchParams.get("date")
+    const queryDate = searchParams.get("date")
 
-    const apiURL = new URL("v1/news", "https://api.yz13.ru/")
+    const date = queryDate ? queryDate : format(new Date(), "yyyy-MM-dd")
 
-    if (date) {
-      apiURL.searchParams.set("date", date)
-    }
-
-    const response = await fetch(apiURL.toString())
-
-    const articles = await response.json()
+    const articles = await getNewsV1({ date })
 
     return { articles }
   } catch (error) {
