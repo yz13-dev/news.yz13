@@ -2,13 +2,13 @@ import { getNewsV1 } from "@yz13/api";
 import { format } from "date-fns";
 import { Loader2Icon } from "lucide-react";
 import { useInView } from "motion/react";
-import { useQueryState } from "nuqs";
+import { parseAsIsoDate, useQueryState } from "nuqs";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import ArticleCard from "./article-card";
 
 
 export default function ({ children }: { children: ReactNode }) {
-  const [date] = useQueryState("date")
+  const [date] = useQueryState("date", parseAsIsoDate)
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -25,7 +25,7 @@ export default function ({ children }: { children: ReactNode }) {
     try {
       const newOffset = offset + 16;
 
-      const newDate = date ? date : format(new Date(), "yyyy-MM-dd")
+      const newDate = date ? format(date, "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd")
 
       const articles = await getNewsV1({
         date: newDate,

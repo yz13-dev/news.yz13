@@ -12,7 +12,7 @@
   "dependencies": {
     "@react-router/node": "^7.7.0",
     "@react-router/serve": "^7.7.0",
-    "@yz13/api": "^0.2.2",
+    "@yz13/api": "^0.2.3",
     "@yz13/ui": "^0.2.2",
     "date-fns": "^4.1.0",
     "isbot": "^4.4.0",
