@@ -1,7 +1,7 @@
 import { Skeleton } from "@yz13/ui/skeleton";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
-import { ArrowRightIcon, ExternalLinkIcon, ImageOffIcon } from "lucide-react";
+import { ArrowRightIcon, ExternalLinkIcon } from "lucide-react";
 import { Link } from "react-router";
 
 
@@ -37,13 +37,13 @@ export default function ({ article }: ArticleCardProps) {
   const articleLink = article.url;
   return (
     <div className="space-y-3 py-4 gap-2 relative" key={article.id}>
-      {
+      {/*{
         imageUrl
           ? <img src={imageUrl} className="md:w-36 w-full md:absolute relative md:-left-40 left-0 aspect-video rounded-lg object-cover" alt={title} />
           : <div className="md:w-36 w-full md:absolute relative md:flex hidden border md:-left-40 left-0 aspect-video rounded-lg object-cover  items-center justify-center">
             <ImageOffIcon size={24} className="text-muted-foreground" />
           </div>
-      }
+      }*/}
       <div>
         <span className="text-lg font-medium text-pretty">{title}</span>
       </div>
